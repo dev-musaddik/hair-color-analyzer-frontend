@@ -2,16 +2,10 @@ import React, { useState, useCallback } from "react";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
 
-/**
- * Corrected PreviewCard Component
- * It now properly destructures and uses the 'preview' prop for the <img> src.
- */
 const PreviewCard = ({ file, preview, result, status, error }) => (
   <div className="bg-white shadow-lg rounded-lg overflow-hidden relative">
-    {/* Image Preview */}
     <img src={preview} alt={file.name} className="w-full h-48 object-contain" />
 
-    {/* Loading Spinner */}
     {status === "loading" && (
       <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
@@ -30,15 +24,15 @@ const PreviewCard = ({ file, preview, result, status, error }) => (
             ></div>
             <div>
               <p className="text-sm text-gray-600">
-                HEX: {result.dominant_color_hex}
+                Dominant: {result.dominant_color_hex}
               </p>
               <p className="text-sm text-gray-600">
-                RGB: {`rgb(${result.dominant_color_rgb.join(", ")})`}
+                Closest Match: {result.closest_color} ({result.match_percentage})
               </p>
             </div>
           </div>
+          <p className="text-xs text-gray-500 mt-2">{result.message}</p>
 
-          {/* ✅ Cache Label */}
           <div className="mt-3">
             <span
               className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${
@@ -60,9 +54,6 @@ const PreviewCard = ({ file, preview, result, status, error }) => (
   </div>
 );
 
-/**
- * Your App Component
- */
 const App = () => {
   const [files, setFiles] = useState([]);
 
@@ -92,7 +83,6 @@ const App = () => {
   const handleAnalyze = async () => {
     if (files.length === 0) return;
 
-    // Filter again to ensure safety before sending
     const validFiles = files.filter((f) => f.file.type.startsWith("image/"));
     if (validFiles.length === 0) {
       alert("No valid image files to analyze.");
@@ -107,9 +97,13 @@ const App = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost:8000/analyze-hair",
+          "https://hair-color-analyzer-backend.onrender.com/analyze-color",
           formData
         );
+        // const response = await axios.post(
+        //   "http://localhost:8000/analyze-color",
+        //   formData
+        // );
         setFiles((files) =>
           files.map((f, index) =>
             index === i
@@ -131,7 +125,6 @@ const App = () => {
   };
 
   const handleClear = () => {
-    // Revoke object URLs to prevent memory leaks
     files.forEach((file) => URL.revokeObjectURL(file.preview));
     setFiles([]);
   };
@@ -143,17 +136,15 @@ const App = () => {
     },
   });
 
-  console.log(files);
-
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
       <div className="w-full max-w-4xl px-4">
         <header className="text-center mb-10">
           <h1 className="text-4xl font-bold text-gray-800">
-            AI Hair Color Analyzer
+            AI Color Analyzer
           </h1>
           <p className="text-lg text-gray-600 mt-2">
-            Upload images to detect the dominant hair color.
+            Upload an image to detect its dominant color.
           </p>
         </header>
 
@@ -182,7 +173,6 @@ const App = () => {
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {files.map((file, index) => (
-                // Spreading 'file' object from state passes 'file', 'preview', 'status', 'result', 'error' as props
                 <PreviewCard key={index} {...file} />
               ))}
             </div>
