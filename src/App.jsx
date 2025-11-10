@@ -17,7 +17,8 @@ function App() {
     }
   }, [analysisResults]);
 
-  const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
+  // const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
+  const API_BASE = import.meta.env.VITE_API_BASE || "https://hair-color-analyzer-backend.onrender.com";
 
   useEffect(() => {
     console.log("Dark Mode Status:", darkMode); // Debug log
