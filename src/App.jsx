@@ -5,7 +5,7 @@ import ColorSuggestionInput from "./component/ColorSuggestionInput";
 
 // --- Constants ---
 // const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
-  const API_BASE_URL = "http://127.0.0.1:8000" || "https://hair-color-analyzer-backend.onrender.com";
+  const API_BASE_URL =  "https://hair-color-analyzer-backend.onrender.com" || "http://127.0.0.1:8000" ;
 
 const MODE_ANALYZE = "analyze";
 const MODE_TRAIN = "train";
