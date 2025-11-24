@@ -5,7 +5,8 @@ import ColorSuggestionInput from "./component/ColorSuggestionInput";
 
 // --- Constants ---
 // const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
-  const API_BASE_URL =  "https://hair-color-analyzer-backend.onrender.com" || "http://127.0.0.1:8000" ;
+  // const API_BASE_URL =  "https://hair-color-analyzer-backend.onrender.com" || "http://127.0.0.1:8000" ;
+  const API_BASE_URL =   "http://127.0.0.1:8000"  ||"https://hair-color-analyzer-backend.onrender.com";
 
 const MODE_ANALYZE = "analyze";
 const MODE_TRAIN = "train";
@@ -40,8 +41,8 @@ const Header = ({ currentMode, onModeChange }) => (
   <header className="bg-white/80 dark:bg-gray-950/80 backdrop-blur-lg sticky top-0 z-40 shadow-sm">
     <div className="container mx-auto px-4 py-3 flex justify-between items-center">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
-          <svg
+        <div className="w-10 h-10 bg-gradient-to-br rounded-lg flex items-center justify-center shadow-lg">
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -54,9 +55,10 @@ const Header = ({ currentMode, onModeChange }) => (
           >
             <path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08" />
             <path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z" />
-          </svg>
+          </svg> */}
+          <img src="/GLColourMatchingAIAgentlogo.png" alt="" />
         </div>
-        <h1 className="text-xl font-bold tracking-tight">Hair Colour AI</h1>
+        <h1 className="text-xl font-bold tracking-tight">Colour Matching AI Agent</h1>
       </div>
       <div className="flex items-center p-1 bg-gray-200 dark:bg-gray-800 rounded-full">
         <TabButton
@@ -147,7 +149,7 @@ const AnalyzerView = () => {
         <ActionButton
           onClick={handleAnalyze}
           disabled={files.length === 0 || loading}
-          text={loading ? "Analyzing..." : "Analyze Hair Color"}
+          text={loading ? "Analyzing..." : "Analyze Hair Colour"}
         />
       </div>
       <div className="mt-0 md:mt-12">
@@ -179,7 +181,7 @@ const TrainerView = () => {
         setTrainedColors(data.trained_colors || []);
       }
     } catch (err) {
-      console.error("Failed to fetch trained colors:", err);
+      console.error("Failed to fetch trained colours:", err);
     }
   }, []);
 
@@ -200,7 +202,7 @@ const TrainerView = () => {
 
   const handleTrain = async () => {
     if (files.length === 0 || !colorName) {
-      setError("Please provide a color name and at least one image.");
+      setError("Please provide a colour name and at least one image.");
       return;
     }
     setLoading(true);
@@ -247,12 +249,12 @@ const TrainerView = () => {
         onChange={(v) => setColorName(v)}
       />
 
-      <p className="mt-4">Selected Color: {colorName}</p>
+      <p className="mt-4">Selected Colour: {colorName}</p>
     </div>
         <ActionButton
           onClick={handleTrain}
           disabled={files.length === 0 || !colorName || loading}
-          text={loading ? "Training..." : "Train New Color"}
+          text={loading ? "Training..." : "Train New Colour"}
         />
         <div className="mt-4">
           <AnimatePresence mode="wait">
@@ -432,7 +434,7 @@ const AnalysisResult = ({ result }) => (
               </div>
               <ColorPalette
                 colors={res.user_hair_colors}
-                title="Detected Hair Colors"
+                title="Detected Hair Colours"
               />
             </>
           )}
@@ -444,7 +446,7 @@ const AnalysisResult = ({ result }) => (
 const TrainedColorsList = ({ colors }) => (
   <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
     {colors.length === 0 ? (
-      <p className="text-gray-500">No colors trained yet.</p>
+      <p className="text-gray-500">No colours trained yet.</p>
     ) : (
       colors.map((color) => (
         <div
